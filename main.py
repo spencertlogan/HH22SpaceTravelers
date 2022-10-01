@@ -4,10 +4,21 @@ import classes
 
 pygame.init()
 WINDOW = pygame.display.set_mode((500, 600))
-
 # color declaration
 BLACK = (0, 0, 0)
 RED = (255, 87, 51)
+
+#initialize player variables
+playerHealth = 100
+playerSpeed = 0
+playerHeight = 50
+playerWidth = 50
+playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
+playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+playerImg = pygame.image.load("Alien.png")
+playerImg = pygame.transform.scale(playerImg, (playerWidth, playerHeight))
+
+player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
 
 def collides(rect1, rect2):
     # fix this to be interactive
