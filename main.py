@@ -56,6 +56,7 @@ obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
 boost_bar = classes.Rectangle(0, 20, 100, 25)
 asteroid_image = pygame.image.load("asteroid.png")
+last_collision = 0
 
 # main loop
 current_state = "menu"
@@ -142,12 +143,12 @@ while running:
         #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
-         # checking for collision with player
-        '''if pygame.time.get_ticks() % 100 == 0:
-        for obstacle in obstacle_list:
-            if player_collides(player, obstacle):
-                # pass
-                print("COLLIDES")'''
+        # checking for collision with player
+            
+        if pygame.time.get_ticks() > (last_collision + 500) and pygame.time.get_ticks() % 100 == 0:
+            for obstacle in obstacle_list:
+                if player_collides(player, obstacle):
+                    last_collision = pygame.time.get_ticks()
 
         
         # creating obstacles and moving them
