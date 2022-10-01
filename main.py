@@ -16,12 +16,14 @@ WIDTH = WINDOW.get_width()
 HEIGHT = WINDOW.get_height()
 # defining a font 
 smallfont = pygame.font.SysFont('Corbel',35)
+smallerfont = pygame.font.SysFont('Corbel',15)
 bigfont = pygame.font.SysFont('Corbel',50) 
 # rendering a text written in 
 # this font 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
+authorsText = smallerfont.render("Created by Christion Bradley, Specer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 
 #initialize player variables
 playerHealth = 100
@@ -98,6 +100,7 @@ while running:
         WINDOW.blit(titleText , (100 ,HEIGHT/2 - 220))
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(playText , (WIDTH/2 - 30,HEIGHT/2 - 100))
+        WINDOW.blit(authorsText , (25,HEIGHT/2 + 280))
         
         
         pygame.display.update()
