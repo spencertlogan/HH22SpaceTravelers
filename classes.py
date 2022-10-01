@@ -8,10 +8,6 @@ class Player:
         self.width = width
         self.height = height
         self.img = img
-    
-    def move(self, direction):
-        self.direction = direction
-        
         
         
 class Obstacle:
