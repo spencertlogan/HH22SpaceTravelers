@@ -67,7 +67,7 @@ while running:
                 #\/ is actually the play button
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
                     current_state = "game"
-
+    
         WINDOW.fill(BLACK)
         mouse = pygame.mouse.get_pos() 
         
@@ -106,18 +106,14 @@ while running:
                     aDown = False
                 elif event.key == pygame.K_d:
                     DDown = False
-            
-            if aDown:
-                if player.xpos > 0:
-                    player.xpos -= 5
-                    if player.xpos < 0:
-                        player.xpos = 0
-            if DDown:
-                if player.xpos < 400:
-                    player.xpos += 5
-                    if player.xpos > 400:
-                        player.xpos = 400
-                    
+        if aDown:
+                player.xpos -= 0.1
+                if player.xpos < 0:
+                    player.xpos = 0
+        if DDown:
+            player.xpos += 0.1
+            if player.xpos > 400:
+                player.xpos = 400        
         WINDOW.blit(player.img, (player.xpos, player.ypos))
         
         # creating obstacles and moving them
@@ -159,6 +155,9 @@ while running:
 
         
         pygame.display.update()
+        idx += 1
+
+    pygame.display.update()
         
 
 
