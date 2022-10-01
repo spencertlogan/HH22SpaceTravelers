@@ -144,7 +144,7 @@ while running:
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
         # checking for collision with player
-            
+        # makes player_collision report only one colsion
         if pygame.time.get_ticks() > (last_collision + 500) and pygame.time.get_ticks() % 100 == 0:
             for obstacle in obstacle_list:
                 if player_collides(player, obstacle):
