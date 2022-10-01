@@ -22,10 +22,35 @@ player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playe
 
 
 running = True
+aDown = False
+DDown = False
+
 while running:
     WINDOW.fill(BLACK)
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if (event.type == pygame.QUIT):
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                aDown = True
+            elif event.key == pygame.K_d:
+                DDown = True
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_a:
+                aDown = False
+            elif event.key == pygame.K_d:
+                DDown = False
+        
+        if aDown:
+            if player.xpos > 0:
+                player.xpos -= 5
+                if player.xpos < 0:
+                    player.xpos = 0
+        if DDown:
+            if player.xpos < 400:
+                player.xpos += 5
+                if player.xpos > 400:
+                    player.xpos = 400
+                
     WINDOW.blit(player.img, (player.xpos, player.ypos))
     pygame.display.update()
