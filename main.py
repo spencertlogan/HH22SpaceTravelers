@@ -25,7 +25,7 @@ titleText = bigfont.render("Untitled game", True, WHITE)
 
 #initialize player variables
 playerHealth = 100
-playerSpeed = 0
+playerSpeed = 0.1
 playerHeight = 50
 playerWidth = 50
 playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
@@ -52,12 +52,14 @@ def collides(rect1, rect2):
 
 obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
+boost_bar = classes.Rectangle(0, 20, 100, 25)
 
 # main loop
 current_state = "menu"
 running = True
 aDown = False
 DDown = False
+spaceDown = False
 
 while running:
     if current_state == "menu":
@@ -102,27 +104,38 @@ while running:
     
     if current_state == "game":
         WINDOW.fill(BLACK)
+        #handles events
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
                 running = False
+            #detects if keys are down
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     aDown = True
                 elif event.key == pygame.K_d:
                     DDown = True
+                elif event.key == pygame.K_SPACE:
+                    spaceDown = True
+                    player.speed /= 2.0
+            #detects if keys are up
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     aDown = False
                 elif event.key == pygame.K_d:
                     DDown = False
+                elif event.key == pygame.K_SPACE:
+                    spaceDown = False
+                    player.speed *= 2.0
+        #updates according to inputs
         if aDown:
-                player.xpos -= 0.1
+                player.xpos -= 0.2
                 if player.xpos < 0:
                     player.xpos = 0
         if DDown:
-            player.xpos += 0.1
+            player.xpos += 0.3
             if player.xpos > 400:
-                player.xpos = 400        
+                player.xpos = 400
+        #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
          # checking for collision with player
@@ -160,7 +173,7 @@ while running:
         # moving and deleting boxes
         idx = 0
         while idx < len(obstacle_list):
-            obstacle_list[idx].ypos -= 0.1
+            obstacle_list[idx].ypos -= player.speed
             
             
             pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
