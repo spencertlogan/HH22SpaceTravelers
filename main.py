@@ -23,6 +23,9 @@ quitText = smallfont.render('quit' , True , WHITE)
 playText = smallfont.render('play' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
 
+#background image
+spaceBackground = pygame.image.load("starryBackground.PNG")
+
 #initialize player variables
 playerHealth = 100
 playerSpeed = 0.1
@@ -61,6 +64,10 @@ aDown = False
 DDown = False
 spaceDown = False
 
+
+SPEEDEVENT = pygame.event.custom_type()
+pygame.time.set_timer(SPEEDEVENT, 10000)
+
 while running:
     if current_state == "menu":
         for ev in pygame.event.get(): 
@@ -78,8 +85,8 @@ while running:
                 #\/ is actually the play button
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
                     current_state = "game"
-    
         WINDOW.fill(BLACK)
+        #WINDOW.blit(spaceBackground, (0, 0))
         mouse = pygame.mouse.get_pos() 
         
         # DRAW THE BOXES
@@ -104,6 +111,7 @@ while running:
     
     if current_state == "game":
         WINDOW.fill(BLACK)
+        #WINDOW.blit(spaceBackground, (0, 0))
         #handles events
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
@@ -126,9 +134,14 @@ while running:
                 elif event.key == pygame.K_SPACE:
                     spaceDown = False
                     player.speed *= 2.0
+            elif event.type == SPEEDEVENT:
+                if spaceDown:
+                    player.speed += 0.05
+                else:
+                    player.speed += 0.1
         #updates according to inputs
         if aDown:
-                player.xpos -= 0.2
+                player.xpos -= 0.3
                 if player.xpos < 0:
                     player.xpos = 0
         if DDown:
@@ -182,7 +195,8 @@ while running:
                 obstacle_list.pop(idx)
             
             idx += 1
-
+        health_bar.len = player.health
+        pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, health_bar.len+6, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
         pygame.display.update()
         idx += 1
