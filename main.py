@@ -63,7 +63,6 @@ while running:
                     player.xpos = 400
                 
     WINDOW.blit(player.img, (player.xpos, player.ypos))
-    pygame.display.update()
     
     # creating obstacles and moving them
     # will go across the screen and randomly create rectangles
