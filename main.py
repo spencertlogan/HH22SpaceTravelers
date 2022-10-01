@@ -8,6 +8,7 @@ WINDOW = pygame.display.set_mode((500, 600))
 BLACK = (0, 0, 0)
 RED = (255, 87, 51)
 WHITE = (255,255,255) 
+GREY = (128, 128, 128)
 # menu button colors 
 button_light = (170,170,170) 
 button_dark = (100,100,100)
@@ -34,6 +35,13 @@ playerImg = pygame.transform.scale(playerImg, (playerWidth, playerHeight))
 
 player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
 
+def player_collides(player, rect):
+    # react - len=x | width=y
+    if (rect.xpos - rect.len) <= player.xpos <= (rect.xpos + rect.len):
+        if (rect.ypos - rect.width) <= player.ypos <= (rect.ypos + rect.width):
+            return True
+    return False
+
 def collides(rect1, rect2):
     # fix this to be interactive
     if (rect1.xpos - rect1.len) <= rect2.xpos <= (rect1.xpos + rect1.len): 
@@ -43,6 +51,7 @@ def collides(rect1, rect2):
 
 
 obstacle_list = list()
+health_bar = classes.Rectangle(380, 20, 100, 25)
 
 # main loop
 current_state = "menu"
@@ -115,6 +124,14 @@ while running:
             if player.xpos > 400:
                 player.xpos = 400        
         WINDOW.blit(player.img, (player.xpos, player.ypos))
+
+         # checking for collision with player
+        '''if pygame.time.get_ticks() % 100 == 0:
+        for obstacle in obstacle_list:
+            if player_collides(player, obstacle):
+                # pass
+                print("COLLIDES")'''
+
         
         # creating obstacles and moving them
         # will go across the screen and randomly create rectangles
@@ -146,14 +163,14 @@ while running:
             obstacle_list[idx].ypos -= 0.1
             
             
-            pygame.draw.rect(WINDOW, RED, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
+            pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
             if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list
                 obstacle_list.pop(idx)
             
             idx += 1
 
-        
+        pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
         pygame.display.update()
         idx += 1
 
