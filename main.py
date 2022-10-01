@@ -160,7 +160,6 @@ while running:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
-                # WILL NOT WORK FOR NON-RECTANGLES
                 
 
                 new_rect = classes.Rectangle(curr_pixel, 600, 20, 20)
@@ -180,7 +179,7 @@ while running:
             obstacle_list[idx].ypos -= player.speed
             
             WINDOW.blit(pygame.transform.scale(asteroid_image, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
-            pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
+            # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
             if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list
                 obstacle_list.pop(idx)
