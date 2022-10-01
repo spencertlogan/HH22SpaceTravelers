@@ -16,12 +16,14 @@ WIDTH = WINDOW.get_width()
 HEIGHT = WINDOW.get_height()
 # defining a font 
 smallfont = pygame.font.SysFont('Corbel',35)
+smallerfont = pygame.font.SysFont('Corbel',15)
 bigfont = pygame.font.SysFont('Corbel',50) 
 # rendering a text written in 
 # this font 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
+authorsText = smallerfont.render("Created by Christion Bradley, Specer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 
 #background image
 spaceBackground = pygame.image.load("starryBackground.PNG")
@@ -56,6 +58,8 @@ def collides(rect1, rect2):
 obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
 boost_bar = classes.Rectangle(0, 20, 100, 25)
+asteroid_image = pygame.image.load("asteroid.png")
+last_collision = 0
 
 # main loop
 current_state = "menu"
@@ -105,6 +109,7 @@ while running:
         WINDOW.blit(titleText , (100 ,HEIGHT/2 - 220))
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(playText , (WIDTH/2 - 30,HEIGHT/2 - 100))
+        WINDOW.blit(authorsText , (25,HEIGHT/2 + 280))
         
         
         pygame.display.update()
@@ -151,12 +156,12 @@ while running:
         #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
-         # checking for collision with player
-        '''if pygame.time.get_ticks() % 100 == 0:
-        for obstacle in obstacle_list:
-            if player_collides(player, obstacle):
-                # pass
-                print("COLLIDES")'''
+        # checking for collision with player
+        # makes player_collision report only one colsion
+        if pygame.time.get_ticks() > (last_collision + 500) and pygame.time.get_ticks() % 100 == 0:
+            for obstacle in obstacle_list:
+                if player_collides(player, obstacle):
+                    last_collision = pygame.time.get_ticks()
 
         
         # creating obstacles and moving them
@@ -166,19 +171,18 @@ while running:
         while curr_pixel <= 500:
 
             if random.randint(0, 20000) == 0:
-                curr_len = random.randint(25, 100)
-                curr_width = random.randint(25, 50)
+                # curr_len = random.randint(25, 100)
+                # curr_width = random.randint(25, 50)
 
-                # WILL NOT WORK FOR NON-RECTANGLES
                 
 
-                new_rect = classes.Rectangle(curr_pixel, 600, curr_len, curr_width)
+                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20)
                 for obstacle in obstacle_list:
                     if collides(new_rect, obstacle): # if collides, do not add new box
                         break
                 else: 
                     obstacle_list.append(new_rect)
-                    curr_pixel = curr_pixel + curr_len
+                    curr_pixel = curr_pixel + 50 # curr_len
 
             curr_pixel += 25
 
@@ -188,8 +192,8 @@ while running:
         while idx < len(obstacle_list):
             obstacle_list[idx].ypos -= player.speed
             
-            
-            pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
+            WINDOW.blit(pygame.transform.scale(asteroid_image, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
+            # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
             if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list
                 obstacle_list.pop(idx)
@@ -198,9 +202,8 @@ while running:
         health_bar.len = player.health
         pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, health_bar.len+6, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
-        pygame.display.update()
-        idx += 1
-
+        
+        
     pygame.display.update()
         
 
