@@ -162,6 +162,7 @@ while running:
             for obstacle in obstacle_list:
                 if player_collides(player, obstacle):
                     last_collision = pygame.time.get_ticks()
+                    player.health -= 25
 
         
         # creating obstacles and moving them
@@ -200,8 +201,12 @@ while running:
             
             idx += 1
         health_bar.len = player.health
-        pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, health_bar.len+6, health_bar.width+6))
+        pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, 106, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
+        
+        #check if dead
+        #if player.health <= 0:
+            #insert death screen
         
         
     pygame.display.update()
