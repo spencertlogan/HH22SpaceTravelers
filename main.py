@@ -109,6 +109,11 @@ satellite_image = pygame.image.load("satellite.png")
 asteroid_image = pygame.transform.scale(asteroid_image, (40, 40))
 satellite_image = pygame.transform.scale(satellite_image, (30, 30))
 last_collision = 0
+hurt_sound1 = pygame.mixer.Sound("Hurt_sound_1.wav")
+hurt_sound2 = pygame.mixer.Sound("Hurt_sound_2.wav") 
+hurt_sound3 = pygame.mixer.Sound("Hurt_sound_3.wav") 
+hurt_sounds = [hurt_sound1, hurt_sound2, hurt_sound3]
+mute = False
 
 # main loop
 current_state = "menu"
@@ -335,6 +340,9 @@ while running:
         if pygame.time.get_ticks() > (last_collision + 500) and pygame.time.get_ticks() % 100 == 0:
             for obstacle in obstacle_list:
                 if player_collides(player, obstacle):
+                    if not mute:
+                        pygame.mixer.Sound.play(hurt_sounds[random.randint(0, 2)])
+                        pygame.mixer.music.stop()
                     bounce_obstacle(obstacle)
                     last_collision = pygame.time.get_ticks()
                     player.health -= 25
