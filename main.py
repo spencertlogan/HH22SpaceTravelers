@@ -77,8 +77,8 @@ player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playe
 
 def player_collides(player, rect):
     # react - len=x | width=y
-    if (rect.xpos - (rect.len - 10)) <= player.xpos <= (rect.xpos + (rect.len - 10)):
-        if (rect.ypos - (rect.width - 10)) <= player.ypos <= (rect.ypos + (rect.width - 10)):
+    if (rect.xpos - (rect.len)) <= player.xpos <= (rect.xpos + (rect.len)):
+        if (rect.ypos - (rect.width)) <= player.ypos <= (rect.ypos + (rect.width)):
             return True
     return False
 
@@ -421,7 +421,7 @@ while running:
                         break
                 else: 
                     obstacle_list.append(new_rect)
-                    curr_pixel = curr_pixel + 50 # curr_len
+                    curr_pixel = curr_pixel + 50 # ensures asteroids dont spawn inside one another
 
             curr_pixel += 25
 
@@ -432,7 +432,7 @@ while running:
             if obstacle_list[idx].x_speed and obstacle_list[idx].x_speed: # if tracking asteroid
                 obstacle_list[idx].xpos += obstacle_list[idx].x_speed
                 obstacle_list[idx].ypos += obstacle_list[idx].y_speed
-            else:
+            else: # if normal asteroid
                 obstacle_list[idx].ypos -= player.speed
 
             
@@ -441,6 +441,7 @@ while running:
             WINDOW.blit(pygame.transform.scale(obstacle_list[idx].img, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
             # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
+            # if asteroid off screen, remove it
             if obstacle_list[idx].ypos < -20 or obstacle_list[idx].ypos > 600 or obstacle_list[idx].xpos < -20 or obstacle_list[idx].xpos > 820: # if the obstacle is off the screen, remove from list
                 obstacle_list.pop(idx)
             
