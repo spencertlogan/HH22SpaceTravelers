@@ -314,8 +314,8 @@ while running:
             current_state = "death"
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
-        healthtext = scorefont.render("Health: {}".format(boostVal), True, BLACK)
-        boosttext = scorefont.render("Boost: {}".format(player.health), True, BLACK)
+        healthtext = scorefont.render("Health: {}".format(round(player.health)), True, BLACK)
+        boosttext = scorefont.render("Boost: {}".format(round(boostVal)), True, BLACK)
         WINDOW.blit(scoretext, (380, 100))
         WINDOW.blit(boosttext, (390, 62))
         WINDOW.blit(healthtext, (385, 22))
