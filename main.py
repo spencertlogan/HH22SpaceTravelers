@@ -215,8 +215,8 @@ while running:
                     player.xpos = 0
         if DDown:
             player.xpos += 0.3
-            if player.xpos > 400:
-                player.xpos = 400
+            if player.xpos > 450:
+                player.xpos = 450
         #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
