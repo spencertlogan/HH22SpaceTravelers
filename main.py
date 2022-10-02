@@ -121,7 +121,7 @@ hurt_sound1 = pygame.mixer.Sound("Hurt_sound_1.wav")
 hurt_sound2 = pygame.mixer.Sound("Hurt_sound_2.wav") 
 hurt_sound3 = pygame.mixer.Sound("Hurt_sound_3.wav") 
 hurt_sounds = [hurt_sound1, hurt_sound2, hurt_sound3]
-music = pygame.mixer.Sound("Temp_music.wav")
+music = pygame.mixer.Sound("Music.wav")
 music.set_volume(0.3)
 mute = False
 
