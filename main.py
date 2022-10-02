@@ -88,8 +88,8 @@ def calc_speed(player, obj, time_to_impact):
     x_speed = x_dist / time_to_impact
     y_speed = y_dist / time_to_impact
 
-    x_speed = x_speed * -1 if player.xpos < obj.xpos else x_speed
-    y_speed = y_speed * -1 if player.ypos > obj.ypos else y_speed
+    #x_speed = x_speed * -1 if player.xpos < obj.xpos else x_speed
+    #y_speed = y_speed * -1 if player.ypos > obj.ypos else y_speed
 
     return x_speed, y_speed
 
@@ -355,7 +355,9 @@ while running:
                 obstacle_image = satellite_image if random.randint(0, 2) == 0 else asteroid_image
 
                 if random.randint(0, 10) == 0: # creating tracking asteroid
-                    new_rect = classes.Rectangle(-20, 500, 20, 20, asteroid_image)
+                    start_x = -20 if random.randint(0, 1) == 0 else 500
+                    start_y = random.randint(0, 150) if random.randint(0, 1) == 0 else random.randint(350, 500)
+                    new_rect = classes.Rectangle(start_x, start_y, 20, 20, asteroid_image)
                     new_rect.x_speed, new_rect.y_speed = calc_speed(player, new_rect, 1500)
                 else:
                     new_rect = classes.Rectangle(curr_pixel, 600, 20, 20, obstacle_image)
