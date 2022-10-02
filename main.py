@@ -162,7 +162,6 @@ while running:
                     current_state = "tutorial"
                 #\/ is actually the play button
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50:
-                    pygame.mixer.stop() # stop main menu music
                     current_state = "game"
                 #mute button
                 if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250: 
@@ -245,6 +244,12 @@ while running:
         pygame.display.update()
     
     if current_state == "death":
+        if not mute:
+            pygame.mixer.unpause()
+            pygame.mixer.Sound.play(main_menu_music)
+            pygame.mixer.music.stop()
+        else:
+            pygame.mixer.pause()
         scoreText = smallfont.render("You traveled {} lightyears!".format(score), True, WHITE)
         if (score > highscore):
             highscore = score
