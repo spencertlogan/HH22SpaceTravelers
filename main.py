@@ -140,8 +140,11 @@ pygame.time.set_timer(SPEEDEVENT, 1000)
 while running:
     if current_state == "menu":
         if not mute:
+            pygame.mixer.unpause()
             pygame.mixer.Sound.play(main_menu_music)
             pygame.mixer.music.stop()
+        else:
+            pygame.mixer.pause()
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 
@@ -158,7 +161,8 @@ while running:
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50: 
                     current_state = "tutorial"
                 #\/ is actually the play button
-                if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
+                if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50:
+                    pygame.mixer.stop() # stop main menu music
                     current_state = "game"
                 #mute button
                 if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250: 
