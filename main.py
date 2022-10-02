@@ -76,7 +76,7 @@ spaceDown = False
 
 
 SPEEDEVENT = pygame.event.custom_type()
-pygame.time.set_timer(SPEEDEVENT, 10000)
+pygame.time.set_timer(SPEEDEVENT, 1000)
 
 while running:
     if current_state == "menu":
@@ -204,9 +204,9 @@ while running:
                     player.speed *= 2.0
             elif event.type == SPEEDEVENT:
                 if spaceDown:
-                    player.speed += 0.05
+                    player.speed += 0.005
                 else:
-                    player.speed += 0.1
+                    player.speed += 0.01
         #updates according to inputs
         if aDown:
                 player.xpos -= 0.3
