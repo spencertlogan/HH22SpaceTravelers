@@ -94,7 +94,9 @@ def calc_speed(player, obj, time_to_impact):
     return x_speed, y_speed
 
 
-    
+def bounce_obstacle(obj):
+    obj.x_speed = random.uniform(-0.5, 0.5)
+    obj.y_speed = random.uniform(0.1, 0.5)
     
 
 
@@ -331,6 +333,7 @@ while running:
         if pygame.time.get_ticks() > (last_collision + 500) and pygame.time.get_ticks() % 100 == 0:
             for obstacle in obstacle_list:
                 if player_collides(player, obstacle):
+                    bounce_obstacle(obstacle)
                     last_collision = pygame.time.get_ticks()
                     player.health -= 25
         
@@ -386,7 +389,7 @@ while running:
             WINDOW.blit(pygame.transform.scale(obstacle_list[idx].img, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
             # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
-            if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list
+            if obstacle_list[idx].ypos < -20 or obstacle_list[idx].ypos > 600 or obstacle_list[idx].xpos < -20 or obstacle_list[idx].xpos > 820: # if the obstacle is off the screen, remove from list
                 obstacle_list.pop(idx)
             
             idx += 1
