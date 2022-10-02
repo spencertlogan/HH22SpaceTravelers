@@ -29,8 +29,9 @@ newHighscore = False
 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
-tutorialText = smallfont.render('tutorial' , True , WHITE)
+tutorialText = smallfont.render('controls' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
+blurbText = scorefont.render("Travel through space while dodging debree", True, WHITE)
 authorsText = smallerfont.render("Created by Christion Bradley, Spencer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
@@ -164,9 +165,10 @@ while running:
         
         
         WINDOW.blit(titleText , (100 ,HEIGHT/2 - 220))
+        WINDOW.blit(blurbText , (80,HEIGHT/2 - 155))
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(playText , (WIDTH/2 - 30,HEIGHT/2 - 100))
-        WINDOW.blit(tutorialText , (WIDTH/2 - 50,HEIGHT/2))
+        WINDOW.blit(tutorialText , (WIDTH/2 - 55,HEIGHT/2))
         WINDOW.blit(authorsText , (25,HEIGHT/2 + 280))
         
         pygame.display.update()
