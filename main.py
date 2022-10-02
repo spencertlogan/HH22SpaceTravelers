@@ -303,7 +303,11 @@ while running:
             current_state = "death"
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
+        healthtext = scorefont.render("Health: {}".format(boostVal), True, BLACK)
+        boosttext = scorefont.render("Boost: {}".format(player.health), True, BLACK)
         WINDOW.blit(scoretext, (380, 100))
+        WINDOW.blit(boosttext, (390, 62))
+        WINDOW.blit(healthtext, (385, 22))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
         
