@@ -22,6 +22,8 @@ scorefont = pygame.font.SysFont('Corbel',20)
 # rendering a text written in 
 # this font 
 score = 0
+highscore = 0
+newHighscore = False
 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
@@ -29,6 +31,7 @@ titleText = bigfont.render("Untitled game", True, WHITE)
 authorsText = smallerfont.render("Created by Christion Bradley, Specer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
+newHighscoreText = bigfont.render("NEW HIGH SCORE", True, WHITE)
 
 #background image
 spaceBackground = pygame.image.load("starryBackground.PNG").convert()
@@ -123,7 +126,11 @@ while running:
         pygame.display.update()
     
     if current_state == "death":
-        scoreText = smallfont.render("You traveled {} ligthyears!".format(score), True, RED)
+        scoreText = smallfont.render("You traveled {} lightyears!".format(score), True, WHITE)
+        if (score > highscore):
+            highscore = score
+            newHighscore = True
+        highscoreText = smallfont.render("High Score: {} lightyears".format(highscore), True, WHITE)
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 
@@ -137,7 +144,7 @@ while running:
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2+90 <= mouse[1] <= HEIGHT/2+150: 
                     pygame.quit()
                 #\/ is actually the replay button
-                if WIDTH/2-90 <= mouse[0] <= WIDTH/2+90 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
+                if WIDTH/2-90 <= mouse[0] <= WIDTH/2+90 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50: 
                     playerHealth = 100
                     playerSpeed = 0.1
                     playerHeight = 50
@@ -153,6 +160,7 @@ while running:
                     aDown = False
                     DDown = False
                     spaceDown = False
+                    newHighscore = False
                     current_state = "game"
                     
 
@@ -164,18 +172,21 @@ while running:
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 + 90,120,60]) 
             
-        if WIDTH/2-90 <= mouse[0] <= WIDTH/2+90 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50:
-            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 90,HEIGHT/2 - 110,180,60]) 
+        if WIDTH/2-90 <= mouse[0] <= WIDTH/2+90 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50:
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 90,HEIGHT/2 - 10,180,60]) 
             
         else: 
-            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 90,HEIGHT/2 - 110,180,60]) 
+            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 90,HEIGHT/2 - 10,180,60]) 
         
         
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
-        WINDOW.blit(replayText , (WIDTH/2 - 70,HEIGHT/2 - 100))
+        WINDOW.blit(replayText , (WIDTH/2 - 70,HEIGHT/2))
         WINDOW.blit(deathText , (30,HEIGHT/2 - 220))
-        WINDOW.blit(scoreText , (WIDTH/2 - 180,HEIGHT/2 - 160))
-        
+        WINDOW.blit(scoreText , (WIDTH/2 - 180,HEIGHT/2 - 150))
+        if (newHighscore):
+            WINDOW.blit(newHighscoreText, (WIDTH/2 - 180,HEIGHT/2 - 80))
+        else:
+            WINDOW.blit(highscoreText , (WIDTH/2 - 170,HEIGHT/2 - 80))
         
         pygame.display.update()
     
