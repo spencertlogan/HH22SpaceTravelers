@@ -9,6 +9,7 @@ BLACK = (0, 0, 0)
 RED = (255, 87, 51)
 WHITE = (255,255,255) 
 GREY = (128, 128, 128)
+BLUE = (50, 50, 255)
 # menu button colors 
 button_light = (170,170,170) 
 button_dark = (100,100,100)
@@ -28,7 +29,7 @@ newHighscore = False
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
-authorsText = smallerfont.render("Created by Christion Bradley, Specer Logan, Sam Cole, and Revanth Myana", True, WHITE)
+authorsText = smallerfont.render("Created by Christion Bradley, Spencer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
 newHighscoreText = bigfont.render("NEW HIGH SCORE", True, WHITE)
@@ -43,7 +44,7 @@ playerSpeed = 0.1
 playerHeight = 50
 playerWidth = 50
 playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
-playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+playerYpos = (WINDOW.get_height() / 3) - (playerHeight/2)
 playerImg = pygame.image.load("Alien.png")
 playerImgRed = pygame.image.load("redalien.png")
 playerImg = pygame.transform.scale(playerImg, (playerWidth, playerHeight))
@@ -68,8 +69,10 @@ def collides(rect1, rect2):
 
 obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
-boost_bar = classes.Rectangle(0, 20, 100, 25)
 asteroid_image = pygame.image.load("asteroid.png")
+satellite_image = pygame.image.load("satellite.png")
+asteroid_image = pygame.transform.scale(asteroid_image, (40, 40))
+satellite_image = pygame.transform.scale(satellite_image, (30, 30))
 last_collision = 0
 
 # main loop
@@ -78,6 +81,7 @@ running = True
 aDown = False
 DDown = False
 spaceDown = False
+boostVal = 100
 
 
 SPEEDEVENT = pygame.event.custom_type()
@@ -150,7 +154,7 @@ while running:
                     playerHeight = 50
                     playerWidth = 50
                     playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
-                    playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+                    playerYpos = (WINDOW.get_height() / 3) - (playerHeight/2)
                     player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
                     obstacle_list = list()
                     health_bar = classes.Rectangle(380, 20, 100, 25)
@@ -213,8 +217,9 @@ while running:
                 elif event.key == pygame.K_d:
                     DDown = False
                 elif event.key == pygame.K_SPACE:
+                    if spaceDown:
+                        player.speed *= 2.0
                     spaceDown = False
-                    player.speed *= 2.0
             elif event.type == SPEEDEVENT:
                 if spaceDown:
                     player.speed += 0.0025
@@ -227,8 +232,21 @@ while running:
                     player.xpos = 0
         if DDown:
             player.xpos += 0.3
-            if player.xpos > 400:
-                player.xpos = 400
+            if player.xpos > 450:
+                player.xpos = 450
+        if spaceDown and boostVal > 0:
+            boostVal -= 0.1
+            if boostVal < 0:
+                boostVal = 0
+        if boostVal == 0 and spaceDown:
+            spaceDown = False
+            player.speed *= 2.0
+        elif not spaceDown and boostVal < 100:
+            boostVal += 0.025
+            if boostVal > 100:
+                boostVal = 100
+
+            
         #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
@@ -253,14 +271,15 @@ while running:
         curr_pixel = 0
         while curr_pixel <= 500:
             
-            upper_bound = max(10, 7500 - (pygame.time.get_ticks() // 50))
+            
+            upper_bound = max(10, 5000 - (score // 50))
             if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
                 
-
-                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20)
+                obstacle_image = satellite_image if random.randint(0, 2) == 0 else asteroid_image
+                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20, obstacle_image)
                 for obstacle in obstacle_list:
                     if collides(new_rect, obstacle): # if collides, do not add new box
                         break
@@ -276,7 +295,8 @@ while running:
         while idx < len(obstacle_list):
             obstacle_list[idx].ypos -= player.speed
             
-            WINDOW.blit(pygame.transform.scale(asteroid_image, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
+            
+            WINDOW.blit(pygame.transform.scale(obstacle_list[idx].img, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
             # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
             if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list
@@ -287,11 +307,14 @@ while running:
         pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, 106, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
         
+        pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3+40, 106, health_bar.width+6))
+        pygame.draw.rect(WINDOW, BLUE, (health_bar.xpos, health_bar.ypos+40, boostVal, health_bar.width))
+        
         if player.health <= 0:
             current_state = "death"
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
-        WINDOW.blit(scoretext, (380, 50))
+        WINDOW.blit(scoretext, (380, 100))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
         
