@@ -41,7 +41,7 @@ playerSpeed = 0.1
 playerHeight = 50
 playerWidth = 50
 playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
-playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+playerYpos = (WINDOW.get_height() / 3) - (playerHeight/2)
 playerImg = pygame.image.load("Alien.png")
 playerImgRed = pygame.image.load("redalien.png")
 playerImg = pygame.transform.scale(playerImg, (playerWidth, playerHeight))
@@ -144,7 +144,7 @@ while running:
                     playerHeight = 50
                     playerWidth = 50
                     playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
-                    playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+                    playerYpos = (WINDOW.get_height() / 3) - (playerHeight/2)
                     player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
                     obstacle_list = list()
                     health_bar = classes.Rectangle(380, 20, 100, 25)
