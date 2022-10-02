@@ -30,7 +30,8 @@ replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
 
 #background image
-spaceBackground = pygame.image.load("starryBackground.PNG")
+spaceBackground = pygame.image.load("starryBackground.PNG").convert()
+spaceBackground = pygame.transform.scale(spaceBackground, (500,600))
 
 #initialize player variables
 playerHealth = 100
@@ -96,7 +97,7 @@ while running:
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
                     current_state = "game"
         WINDOW.fill(BLACK)
-        #WINDOW.blit(spaceBackground, (0, 0))
+        WINDOW.blit(spaceBackground, (0, 0))
         mouse = pygame.mouse.get_pos() 
         
         # DRAW THE BOXES
@@ -179,7 +180,7 @@ while running:
     
     if current_state == "game":
         WINDOW.fill(BLACK)
-        #WINDOW.blit(spaceBackground, (0, 0))
+        WINDOW.blit(spaceBackground, (0, 0))
         #handles events
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
@@ -204,9 +205,9 @@ while running:
                     player.speed *= 2.0
             elif event.type == SPEEDEVENT:
                 if spaceDown:
-                    player.speed += 0.005
+                    player.speed += 0.0025
                 else:
-                    player.speed += 0.01
+                    player.speed += 0.005
         #updates according to inputs
         if aDown:
                 player.xpos -= 0.3
