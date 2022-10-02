@@ -375,7 +375,7 @@ while running:
         boosttext = scorefont.render("Boost: {}".format(round(boostVal)), True, BLACK)
         WINDOW.blit(scoretext, (380, 100))
         WINDOW.blit(boosttext, (390, 62))
-        WINDOW.blit(healthtext, (385, 22))
+        WINDOW.blit(healthtext, (386, 25))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
         
