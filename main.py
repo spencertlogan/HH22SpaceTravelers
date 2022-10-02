@@ -121,8 +121,8 @@ hurt_sound1 = pygame.mixer.Sound("Hurt_sound_1.wav")
 hurt_sound2 = pygame.mixer.Sound("Hurt_sound_2.wav") 
 hurt_sound3 = pygame.mixer.Sound("Hurt_sound_3.wav") 
 hurt_sounds = [hurt_sound1, hurt_sound2, hurt_sound3]
-main_menu_music = pygame.mixer.Sound("Temp_music.wav")
-main_menu_music.set_volume(0.3)
+music = pygame.mixer.Sound("Temp_music.wav")
+music.set_volume(0.3)
 mute = False
 
 # main loop
@@ -141,7 +141,7 @@ while running:
     if current_state == "menu":
         if not mute:
             pygame.mixer.unpause()
-            pygame.mixer.Sound.play(main_menu_music)
+            pygame.mixer.Sound.play(music)
             pygame.mixer.music.stop()
         else:
             pygame.mixer.pause()
@@ -246,7 +246,7 @@ while running:
     if current_state == "death":
         if not mute:
             pygame.mixer.unpause()
-            pygame.mixer.Sound.play(main_menu_music)
+            pygame.mixer.Sound.play(music)
             pygame.mixer.music.stop()
         else:
             pygame.mixer.pause()
