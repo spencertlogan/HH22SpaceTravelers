@@ -1,4 +1,5 @@
 from time import time
+from tkinter.font import BOLD
 import pygame
 import random
 import classes
@@ -26,6 +27,7 @@ scorefont = pygame.font.SysFont('Corbel',20)
 score = 0
 highscore = 0
 newHighscore = False
+mute = False
 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
@@ -48,6 +50,12 @@ spacekey = pygame.image.load("spacekey.png")
 akey = pygame.transform.scale(akey, (50, 50))
 dkey = pygame.transform.scale(dkey, (50, 50))
 spacekey = pygame.transform.scale(spacekey, (170, 50))
+
+#mute icons
+mute_img = pygame.image.load("mute.png")
+mute_img = pygame.transform.scale(mute_img, (50, 50))
+unmute_img = pygame.image.load("unmute.png")
+unmute_img = pygame.transform.scale(unmute_img, (50, 50))
 
 #background image
 spaceBackground = pygame.image.load("starryBackground.PNG").convert()
@@ -142,6 +150,12 @@ while running:
                 #\/ is actually the play button
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
                     current_state = "game"
+                #mute button
+                if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250: 
+                    if mute:
+                        mute = False
+                    elif not mute:
+                        mute = True
         WINDOW.fill(BLACK)
         WINDOW.blit(spaceBackground, (0, 0))
         mouse = pygame.mouse.get_pos() 
@@ -154,16 +168,19 @@ while running:
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 + 90,120,60]) 
         #play box   
         if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50:
-            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 - 110,120,60]) 
-            
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 - 110,120,60])   
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 - 110,120,60]) 
         #tutorial box
         if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50:
             pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 - 10,120,60]) 
-            
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 - 10,120,60]) 
+        #mute box
+        if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250:
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 30,HEIGHT/2 + 190, 60,60]) 
+        else: 
+            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 30 ,HEIGHT/2 + 190, 60,60]) 
         
         
         WINDOW.blit(titleText , (100 ,HEIGHT/2 - 220))
@@ -172,6 +189,10 @@ while running:
         WINDOW.blit(playText , (WIDTH/2 - 30,HEIGHT/2 - 100))
         WINDOW.blit(tutorialText , (WIDTH/2 - 55,HEIGHT/2))
         WINDOW.blit(authorsText , (25,HEIGHT/2 + 280))
+        if mute:
+            WINDOW.blit(mute_img, (WIDTH/2 - 25 ,HEIGHT/2 + 195))
+        elif not mute:
+            WINDOW.blit(unmute_img, (WIDTH/2 - 24 ,HEIGHT/2 + 195))
         
         pygame.display.update()
         
@@ -196,7 +217,7 @@ while running:
             pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 170,HEIGHT/2 + 200,340,60]) 
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 170,HEIGHT/2 + 200,340,60]) 
-            
+        
         WINDOW.blit(inTutorialtext , (WIDTH/2 - 120 ,HEIGHT/2 - 240))
         WINDOW.blit(gobacktext , (WIDTH/2 - 160,HEIGHT/2 + 210))
         WINDOW.blit(akey, (40, 150))
@@ -246,7 +267,12 @@ while running:
                     spaceDown = False
                     newHighscore = False
                     current_state = "game"
-                    
+                #mute button
+                if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250: 
+                    if mute:
+                        mute = False
+                    elif not mute:
+                        mute = True
 
         mouse = pygame.mouse.get_pos() 
         
@@ -261,17 +287,24 @@ while running:
             
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 90,HEIGHT/2 - 10,180,60]) 
-        
+        #mute box
+        if WIDTH/2-30 <= mouse[0] <= WIDTH/2+30 and HEIGHT/2+190 <= mouse[1] <= HEIGHT/2+250:
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 30,HEIGHT/2 + 190, 60,60]) 
+        else: 
+            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 30 ,HEIGHT/2 + 190, 60,60])
         
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(replayText , (WIDTH/2 - 70,HEIGHT/2))
-        WINDOW.blit(deathText , (30,HEIGHT/2 - 220))
-        WINDOW.blit(scoreText , (WIDTH/2 - 180,HEIGHT/2 - 150))
+        WINDOW.blit(deathText , (30,HEIGHT/2 - 210))
+        WINDOW.blit(scoreText , (WIDTH/2 - 180,HEIGHT/2 - 140))
         if (newHighscore):
             WINDOW.blit(newHighscoreText, (WIDTH/2 - 180,HEIGHT/2 - 80))
         else:
             WINDOW.blit(highscoreText , (WIDTH/2 - 170,HEIGHT/2 - 80))
-        
+        if mute:
+            WINDOW.blit(mute_img, (WIDTH/2 - 25 ,HEIGHT/2 + 195))
+        elif not mute:
+            WINDOW.blit(unmute_img, (WIDTH/2 - 24 ,HEIGHT/2 + 195))
         pygame.display.update()
     
     if current_state == "game":
