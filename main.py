@@ -27,7 +27,7 @@ score = 0
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
-authorsText = smallerfont.render("Created by Christion Bradley, Specer Logan, Sam Cole, and Revanth Myana", True, WHITE)
+authorsText = smallerfont.render("Created by Christion Bradley, Spencer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
 
@@ -124,7 +124,7 @@ while running:
         pygame.display.update()
     
     if current_state == "death":
-        scoreText = smallfont.render("You traveled {} ligthyears!".format(score), True, RED)
+        scoreText = smallfont.render("You traveled {} lightyears!".format(score), True, RED)
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 

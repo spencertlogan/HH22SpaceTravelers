@@ -21,6 +21,7 @@ score = 2890
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
 scoreText = smallfont.render("Score: {}".format(score), True, RED)
+boostVal = 100
 
 while True: 
       
