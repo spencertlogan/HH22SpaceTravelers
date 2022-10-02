@@ -18,6 +18,7 @@ HEIGHT = WINDOW.get_height()
 smallfont = pygame.font.SysFont('Corbel',35)
 smallerfont = pygame.font.SysFont('Corbel',15)
 bigfont = pygame.font.SysFont('Corbel',50) 
+scorefont = pygame.font.SysFont('Corbel',20)
 # rendering a text written in 
 # this font 
 score = 0
@@ -122,7 +123,7 @@ while running:
         pygame.display.update()
     
     if current_state == "death":
-        scoreText = smallfont.render("Score: {}".format(score), True, RED)
+        scoreText = smallfont.render("You traveled {} ligthyears!".format(score), True, RED)
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 
@@ -173,7 +174,7 @@ while running:
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(replayText , (WIDTH/2 - 70,HEIGHT/2 - 100))
         WINDOW.blit(deathText , (30,HEIGHT/2 - 220))
-        WINDOW.blit(scoreText , (WIDTH/2 - 85,HEIGHT/2 - 160))
+        WINDOW.blit(scoreText , (WIDTH/2 - 180,HEIGHT/2 - 160))
         
         
         pygame.display.update()
@@ -240,8 +241,9 @@ while running:
         # len = x value | width = y value
         curr_pixel = 0
         while curr_pixel <= 500:
-
-            if random.randint(0, 7500) == 0:
+            
+            upper_bound = max(10, 7500 - (pygame.time.get_ticks() // 50))
+            if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
@@ -277,7 +279,7 @@ while running:
         if player.health <= 0:
             current_state = "death"
         
-        scoretext = smallerfont.render("Score: {}".format(score), True, WHITE)
+        scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
         WINDOW.blit(scoretext, (380, 50))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
