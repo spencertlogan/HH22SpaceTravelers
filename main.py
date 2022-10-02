@@ -67,6 +67,9 @@ def collides(rect1, rect2):
 obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
 asteroid_image = pygame.image.load("asteroid.png")
+satellite_image = pygame.image.load("satellite.png")
+asteroid_image = pygame.transform.scale(asteroid_image, (40, 40))
+satellite_image = pygame.transform.scale(satellite_image, (30, 30))
 last_collision = 0
 
 # main loop
@@ -258,14 +261,14 @@ while running:
         while curr_pixel <= 500:
             
             
-            upper_bound = max(10, 7500 - (score // 50))
+            upper_bound = max(10, 5000 - (score // 50))
             if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
                 
-
-                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20)
+                obstacle_image = satellite_image if random.randint(0, 2) == 0 else asteroid_image
+                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20, obstacle_image)
                 for obstacle in obstacle_list:
                     if collides(new_rect, obstacle): # if collides, do not add new box
                         break
@@ -281,7 +284,8 @@ while running:
         while idx < len(obstacle_list):
             obstacle_list[idx].ypos -= player.speed
             
-            WINDOW.blit(pygame.transform.scale(asteroid_image, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
+            
+            WINDOW.blit(pygame.transform.scale(obstacle_list[idx].img, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
             # pygame.draw.rect(WINDOW, GREY, (obstacle_list[idx].xpos, obstacle_list[idx].ypos, obstacle_list[idx].len, obstacle_list[idx].width))
 
             if obstacle_list[idx].ypos < -20: # if the obstacle is off the screen, remove from list

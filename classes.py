@@ -18,8 +18,9 @@ class Obstacle:
 
 class Rectangle(Obstacle):
 
-    def __init__(self, xpos, ypos, len, width):
+    def __init__(self, xpos, ypos, len, width, img=None):
         self.xpos = xpos
         self.ypos = ypos
         self.len = len
         self.width = width
+        self.img = img
