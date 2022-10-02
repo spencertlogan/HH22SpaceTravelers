@@ -139,8 +139,9 @@ pygame.time.set_timer(SPEEDEVENT, 1000)
 
 while running:
     if current_state == "menu":
-        pygame.mixer.Sound.play(main_menu_music)
-        pygame.mixer.music.stop()
+        if not mute:
+            pygame.mixer.Sound.play(main_menu_music)
+            pygame.mixer.music.stop()
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 
