@@ -137,8 +137,22 @@ while running:
                     pygame.quit()
                 #\/ is actually the replay button
                 if WIDTH/2-90 <= mouse[0] <= WIDTH/2+90 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
-                    pygame.quit()
-                    #current_state = "game"
+                    playerHealth = 100
+                    playerSpeed = 0.1
+                    playerHeight = 50
+                    playerWidth = 50
+                    playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
+                    playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
+                    player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
+                    obstacle_list = list()
+                    health_bar = classes.Rectangle(380, 20, 100, 25)
+                    boost_bar = classes.Rectangle(0, 20, 100, 25)
+                    last_collision = 0
+                    score = 0
+                    aDown = False
+                    DDown = False
+                    spaceDown = False
+                    current_state = "game"
                     
 
         mouse = pygame.mouse.get_pos() 
@@ -227,7 +241,7 @@ while running:
         curr_pixel = 0
         while curr_pixel <= 500:
 
-            if random.randint(0, 20000) == 0:
+            if random.randint(0, 7500) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
