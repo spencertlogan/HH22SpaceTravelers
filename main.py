@@ -40,7 +40,7 @@ inTutorialtext = bigfont.render("How to Play", True, WHITE)
 gobacktext = smallfont.render("Go back to Main Menu", True, WHITE)
 p1 = smallfont.render("Moves character right", True, WHITE)
 p2 = smallfont.render("Moves character left", True, WHITE)
-p3 = smallfont.render("Boost character", True, WHITE)
+p3 = smallfont.render("Slows down time", True, WHITE)
 akey = pygame.image.load("akey.png")
 dkey = pygame.image.load("dkey.png")
 spacekey = pygame.image.load("spacekey.png")
@@ -401,9 +401,9 @@ while running:
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
         healthtext = scorefont.render("Health: {}".format(round(player.health)), True, BLACK)
-        boosttext = scorefont.render("Boost: {}".format(round(boostVal)), True, BLACK)
+        boosttext = scorefont.render("Slomo: {}".format(round(boostVal)), True, BLACK)
         WINDOW.blit(scoretext, (380, 100))
-        WINDOW.blit(boosttext, (390, 62))
+        WINDOW.blit(boosttext, (386, 62))
         WINDOW.blit(healthtext, (386, 25))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
