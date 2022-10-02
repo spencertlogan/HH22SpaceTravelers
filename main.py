@@ -206,9 +206,9 @@ while running:
                 elif event.key == pygame.K_d:
                     DDown = False
                 elif event.key == pygame.K_SPACE:
-                    spaceDown = False
                     if spaceDown:
                         player.speed *= 2.0
+                    spaceDown = False
             elif event.type == SPEEDEVENT:
                 if spaceDown:
                     player.speed += 0.0025
