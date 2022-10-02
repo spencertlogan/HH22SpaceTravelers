@@ -113,6 +113,8 @@ hurt_sound1 = pygame.mixer.Sound("Hurt_sound_1.wav")
 hurt_sound2 = pygame.mixer.Sound("Hurt_sound_2.wav") 
 hurt_sound3 = pygame.mixer.Sound("Hurt_sound_3.wav") 
 hurt_sounds = [hurt_sound1, hurt_sound2, hurt_sound3]
+main_menu_music = pygame.mixer.Sound("Temp_music.wav")
+main_menu_music.set_volume(0.3)
 mute = False
 
 # main loop
@@ -129,6 +131,8 @@ pygame.time.set_timer(SPEEDEVENT, 1000)
 
 while running:
     if current_state == "menu":
+        pygame.mixer.Sound.play(main_menu_music)
+        pygame.mixer.music.stop()
         for ev in pygame.event.get(): 
           
             if ev.type == pygame.QUIT: 
@@ -354,7 +358,7 @@ while running:
             player.img = playerImg
 
         
-        # creating obstacles and moving them
+        
         # will go across the screen and randomly create rectangles
         # len = x value | width = y value
         curr_pixel = 0
