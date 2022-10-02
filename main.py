@@ -1,3 +1,4 @@
+from time import time
 import pygame
 import random
 import classes
@@ -78,6 +79,24 @@ def collides(rect1, rect2):
         if (rect1.ypos - rect1.width) <= rect2.ypos <= (rect1.ypos + rect1.width):
             return True
     return False
+
+# will calculate the speed to throw asteroid at player
+def calc_speed(player, obj, time_to_impact):
+    x_dist = abs(player.xpos) - abs(obj.xpos)
+    y_dist = abs(player.ypos) - abs(obj.ypos)  
+
+    x_speed = x_dist / time_to_impact
+    y_speed = y_dist / time_to_impact
+
+    x_speed = x_speed * -1 if player.xpos < obj.xpos else x_speed
+    y_speed = y_speed * -1 if player.ypos > obj.ypos else y_speed
+
+    return x_speed, y_speed
+
+
+    
+    
+
 
 
 obstacle_list = list()
@@ -333,10 +352,13 @@ while running:
             if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
-
-                
                 obstacle_image = satellite_image if random.randint(0, 2) == 0 else asteroid_image
-                new_rect = classes.Rectangle(curr_pixel, 600, 20, 20, obstacle_image)
+
+                if random.randint(0, 10) == 0: # creating tracking asteroid
+                    new_rect = classes.Rectangle(-20, 500, 20, 20, asteroid_image)
+                    new_rect.x_speed, new_rect.y_speed = calc_speed(player, new_rect, 1500)
+                else:
+                    new_rect = classes.Rectangle(curr_pixel, 600, 20, 20, obstacle_image)
                 for obstacle in obstacle_list:
                     if collides(new_rect, obstacle): # if collides, do not add new box
                         break
@@ -350,7 +372,13 @@ while running:
         # moving and deleting boxes
         idx = 0
         while idx < len(obstacle_list):
-            obstacle_list[idx].ypos -= player.speed
+            if obstacle_list[idx].x_speed and obstacle_list[idx].x_speed: # if tracking asteroid
+                obstacle_list[idx].xpos += obstacle_list[idx].x_speed
+                obstacle_list[idx].ypos += obstacle_list[idx].y_speed
+            else:
+                obstacle_list[idx].ypos -= player.speed
+
+            
             
             
             WINDOW.blit(pygame.transform.scale(obstacle_list[idx].img, (40, 40)), (obstacle_list[idx].xpos - 10, obstacle_list[idx].ypos - 10))
@@ -360,6 +388,7 @@ while running:
                 obstacle_list.pop(idx)
             
             idx += 1
+
         health_bar.len = player.health
         pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, 106, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
