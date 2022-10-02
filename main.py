@@ -403,7 +403,7 @@ while running:
         while curr_pixel <= 500:
             
             
-            upper_bound = max(10, 5000 - (score // 50))
+            upper_bound = max(10, 5000 - (score // 10))
             if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
