@@ -36,7 +36,9 @@ playerWidth = 50
 playerXpos = (WINDOW.get_width() / 2) - (playerWidth / 2)
 playerYpos = (WINDOW.get_height() / 2) - (playerHeight/2)
 playerImg = pygame.image.load("Alien.png")
+playerImgRed = pygame.image.load("redalien.png")
 playerImg = pygame.transform.scale(playerImg, (playerWidth, playerHeight))
+playerImgRed = pygame.transform.scale(playerImgRed, (playerWidth, playerHeight))
 
 player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playerWidth, playerHeight, playerImg)
 
@@ -163,6 +165,12 @@ while running:
                 if player_collides(player, obstacle):
                     last_collision = pygame.time.get_ticks()
                     player.health -= 25
+        
+        # Implementing Flickering
+        if pygame.time.get_ticks() > 1000 and pygame.time.get_ticks() <= (last_collision + 1000): # and pygame.time.get_ticks() % 250 == 0:
+            player.img = playerImgRed if player.img == playerImg else playerImg
+        else:
+            player.img = playerImg
 
         
         # creating obstacles and moving them
