@@ -226,7 +226,7 @@ while running:
         curr_pixel = 0
         while curr_pixel <= 500:
 
-            if random.randint(0, 20000) == 0:
+            if random.randint(0, 7500) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
 
