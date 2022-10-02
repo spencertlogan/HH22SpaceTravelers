@@ -14,7 +14,7 @@ HEIGHT = WINDOW.get_height()
 smallfont = pygame.font.SysFont('Corbel',25)
 bigfont = pygame.font.SysFont('Corbel',50) 
 
-tutorialtext = bigfont.render("How to Play", True, WHITE)
+inTutorialtext = bigfont.render("How to Play", True, WHITE)
 gobacktext = smallfont.render("Go back to Main Menu", True, WHITE)
 p1 = smallfont.render("Moves character right as it is held", True, WHITE)
 p2 = smallfont.render("Moves character left as it is held", True, WHITE)
@@ -51,7 +51,7 @@ while True:
         
     
     
-    WINDOW.blit(tutorialtext , (100 ,HEIGHT/2 - 220))
+    WINDOW.blit(inTutorialtext , (100 ,HEIGHT/2 - 220))
     WINDOW.blit(gobacktext , (WIDTH/2 - 170,HEIGHT/2 + 210))
     WINDOW.blit(akey, (80, 150))
     WINDOW.blit(dkey, (80, 250))
