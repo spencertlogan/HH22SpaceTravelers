@@ -9,6 +9,7 @@ BLACK = (0, 0, 0)
 RED = (255, 87, 51)
 WHITE = (255,255,255) 
 GREY = (128, 128, 128)
+BLUE = (50, 50, 255)
 # menu button colors 
 button_light = (170,170,170) 
 button_dark = (100,100,100)
@@ -65,7 +66,6 @@ def collides(rect1, rect2):
 
 obstacle_list = list()
 health_bar = classes.Rectangle(380, 20, 100, 25)
-boost_bar = classes.Rectangle(0, 20, 100, 25)
 asteroid_image = pygame.image.load("asteroid.png")
 last_collision = 0
 
@@ -75,6 +75,7 @@ running = True
 aDown = False
 DDown = False
 spaceDown = False
+boostVal = 100
 
 
 SPEEDEVENT = pygame.event.custom_type()
@@ -203,7 +204,8 @@ while running:
                     DDown = False
                 elif event.key == pygame.K_SPACE:
                     spaceDown = False
-                    player.speed *= 2.0
+                    if spaceDown:
+                        player.speed *= 2.0
             elif event.type == SPEEDEVENT:
                 if spaceDown:
                     player.speed += 0.0025
@@ -218,6 +220,19 @@ while running:
             player.xpos += 0.3
             if player.xpos > 450:
                 player.xpos = 450
+        if spaceDown and boostVal > 0:
+            boostVal -= 0.1
+            if boostVal < 0:
+                boostVal = 0
+        if boostVal == 0 and spaceDown:
+            spaceDown = False
+            player.speed *= 2.0
+        elif not spaceDown and boostVal < 100:
+            boostVal += 0.025
+            if boostVal > 100:
+                boostVal = 100
+
+            
         #player image
         WINDOW.blit(player.img, (player.xpos, player.ypos))
 
@@ -276,11 +291,14 @@ while running:
         pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3, 106, health_bar.width+6))
         pygame.draw.rect(WINDOW, RED, (health_bar.xpos, health_bar.ypos, health_bar.len, health_bar.width))
         
+        pygame.draw.rect(WINDOW, WHITE, (health_bar.xpos-3, health_bar.ypos-3+40, 106, health_bar.width+6))
+        pygame.draw.rect(WINDOW, BLUE, (health_bar.xpos, health_bar.ypos+40, boostVal, health_bar.width))
+        
         if player.health <= 0:
             current_state = "death"
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
-        WINDOW.blit(scoretext, (380, 50))
+        WINDOW.blit(scoretext, (380, 100))
         if pygame.time.get_ticks() % 50 == 0:
             score += 1
         
