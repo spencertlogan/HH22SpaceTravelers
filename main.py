@@ -77,7 +77,7 @@ player = classes.Player(playerXpos, playerYpos, playerHealth, playerSpeed, playe
 
 def player_collides(player, rect):
     # react - len=x | width=y
-    if (rect.xpos - (rect.len)) <= player.xpos <= (rect.xpos + (rect.len)):
+    if (rect.xpos - (rect.len)) <= player.xpos + 10 <= (rect.xpos + (rect.len)):
         if (rect.ypos - (rect.width)) <= player.ypos <= (rect.ypos + (rect.width)):
             return True
     return False
