@@ -29,11 +29,24 @@ newHighscore = False
 
 quitText = smallfont.render('quit' , True , WHITE) 
 playText = smallfont.render('play' , True , WHITE)
+tutorialText = smallfont.render('tutorial' , True , WHITE)
 titleText = bigfont.render("Untitled game", True, WHITE)
 authorsText = smallerfont.render("Created by Christion Bradley, Spencer Logan, Sam Cole, and Revanth Myana", True, WHITE)
 replayText = smallfont.render('play again' , True , WHITE)
 deathText = bigfont.render("Better Luck Next Time", True, RED)
 newHighscoreText = bigfont.render("NEW HIGH SCORE", True, WHITE)
+#tutorial variables
+inTutorialtext = bigfont.render("How to Play", True, WHITE)
+gobacktext = smallfont.render("Go back to Main Menu", True, WHITE)
+p1 = smallfont.render("Moves character right", True, WHITE)
+p2 = smallfont.render("Moves character left", True, WHITE)
+p3 = smallfont.render("Boost character", True, WHITE)
+akey = pygame.image.load("akey.png")
+dkey = pygame.image.load("dkey.png")
+spacekey = pygame.image.load("spacekey.png")
+akey = pygame.transform.scale(akey, (50, 50))
+dkey = pygame.transform.scale(dkey, (50, 50))
+spacekey = pygame.transform.scale(spacekey, (170, 50))
 
 #background image
 spaceBackground = pygame.image.load("starryBackground.PNG").convert()
@@ -120,6 +133,9 @@ while running:
                 # button the game is terminated 
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2+90 <= mouse[1] <= HEIGHT/2+150: 
                     pygame.quit()
+                #tutorial button
+                if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50: 
+                    current_state = "tutorial"
                 #\/ is actually the play button
                 if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50: 
                     current_state = "game"
@@ -128,22 +144,63 @@ while running:
         mouse = pygame.mouse.get_pos() 
         
         # DRAW THE BOXES
+        #quit box
         if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2+90 <= mouse[1] <= HEIGHT/2+150: 
             pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 + 90,120,60]) 
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 + 90,120,60]) 
-            
+        #play box   
         if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-110 <= mouse[1] <= HEIGHT/2-50:
             pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 - 110,120,60]) 
             
         else: 
             pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 - 110,120,60]) 
+        #tutorial box
+        if WIDTH/2-60 <= mouse[0] <= WIDTH/2+60 and HEIGHT/2-10 <= mouse[1] <= HEIGHT/2+50:
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 60,HEIGHT/2 - 10,120,60]) 
+            
+        else: 
+            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 60,HEIGHT/2 - 10,120,60]) 
         
         
         WINDOW.blit(titleText , (100 ,HEIGHT/2 - 220))
         WINDOW.blit(quitText , (WIDTH/2 - 30,HEIGHT/2 + 100))
         WINDOW.blit(playText , (WIDTH/2 - 30,HEIGHT/2 - 100))
+        WINDOW.blit(tutorialText , (WIDTH/2 - 50,HEIGHT/2))
         WINDOW.blit(authorsText , (25,HEIGHT/2 + 280))
+        
+        pygame.display.update()
+        
+    if current_state == "tutorial":
+        for ev in pygame.event.get(): 
+          
+            if ev.type == pygame.QUIT: 
+                pygame.quit() 
+                
+            #checks if a mouse is clicked 
+            if ev.type == pygame.MOUSEBUTTONDOWN: 
+                
+                #\/ is actually the play button
+                if WIDTH/2-170 <= mouse[0] <= WIDTH/2+170 and HEIGHT/2+200 <= mouse[1] <= HEIGHT/2+260: 
+                      current_state = "menu"
+
+        WINDOW.fill(BLACK)
+        mouse = pygame.mouse.get_pos() 
+        
+        # DRAW THE BOXES
+        if WIDTH/2-170 <= mouse[0] <= WIDTH/2+170 and HEIGHT/2+200 <= mouse[1] <= HEIGHT/2+260: 
+            pygame.draw.rect(WINDOW, button_light,[WIDTH/2 - 170,HEIGHT/2 + 200,340,60]) 
+        else: 
+            pygame.draw.rect(WINDOW, button_dark,[WIDTH/2 - 170,HEIGHT/2 + 200,340,60]) 
+            
+        WINDOW.blit(inTutorialtext , (WIDTH/2 - 120 ,HEIGHT/2 - 240))
+        WINDOW.blit(gobacktext , (WIDTH/2 - 160,HEIGHT/2 + 210))
+        WINDOW.blit(akey, (40, 150))
+        WINDOW.blit(dkey, (40, 250))
+        WINDOW.blit(spacekey, (30, 350))
+        WINDOW.blit(p2, (120, 160))
+        WINDOW.blit(p1, (120, 260))
+        WINDOW.blit(p3, (220, 360))
         
         
         pygame.display.update()
@@ -343,8 +400,8 @@ while running:
             current_state = "death"
         
         scoretext = scorefont.render("Distance: {}".format(score), True, WHITE)
-        healthtext = scorefont.render("Health: {}".format(boostVal), True, BLACK)
-        boosttext = scorefont.render("Boost: {}".format(player.health), True, BLACK)
+        healthtext = scorefont.render("Health: {}".format(round(player.health)), True, BLACK)
+        boosttext = scorefont.render("Boost: {}".format(round(boostVal)), True, BLACK)
         WINDOW.blit(scoretext, (380, 100))
         WINDOW.blit(boosttext, (390, 62))
         WINDOW.blit(healthtext, (385, 22))
