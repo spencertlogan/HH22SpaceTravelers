@@ -257,7 +257,8 @@ while running:
         curr_pixel = 0
         while curr_pixel <= 500:
             
-            upper_bound = max(10, 7500 - (pygame.time.get_ticks() // 50))
+            
+            upper_bound = max(10, 7500 - (score // 50))
             if random.randint(0, upper_bound) == 0:
                 # curr_len = random.randint(25, 100)
                 # curr_width = random.randint(25, 50)
